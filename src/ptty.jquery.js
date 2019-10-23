@@ -3,11 +3,11 @@ import jQuery from 'jquery'
  * Initial code from
  * @author : Pachanka <social@pachanka.org>
  * @url    : http://goto.pachanka.org/ptty/docs
- * @desc   : Ptty (Pseudo teletype). A terminal emulator plugin for jQuery. 
+ * @desc   : Ptty (Pseudo teletype). A terminal emulator plugin for jQuery.
  **/
 
 ( function( $ ) {
-     
+
     /**
     * @method : Ptty
     * @public
@@ -69,7 +69,7 @@ import jQuery from 'jquery'
 
                 // Language
                 i18n : {
-                    // Message to be shown when the terminal is first 
+                    // Message to be shown when the terminal is first
                     welcome : 'Ptty ('+version+').<br> Type <b>help</b> to list the available commands.',
                     // When command is not found: "CMD" will be replaced
                     error_not_found : 'Command not found.',
@@ -160,7 +160,7 @@ import jQuery from 'jquery'
                     name : 'clear',
                     method : function(cmd) {
                         cmd.last = '';
-                        cmd.out = ''; 
+                        cmd.out = '';
                         return cmd;
                     },
                     options : [],
@@ -208,7 +208,7 @@ import jQuery from 'jquery'
                                 }else if(typeof commands[cmd[1]] !== 'undefined'){
                                     cmd.out  = '<b>'+cmd[1]+'</b> - ';
                                     if(commands[cmd[1]].help !== ''){
-                                        cmd.out += commands[cmd[1]].help+"\n";    
+                                        cmd.out += commands[cmd[1]].help+"\n";
                                     }else{
                                         cmd.out += 'No help entry available.'+"\n";
                                     }
@@ -221,7 +221,7 @@ import jQuery from 'jquery'
                                 for( i in commands ){
                                     cmd.out += '<li>'+i+'</li>';
                                 }
-                                cmd.out += '</ul>'+"\n";   
+                                cmd.out += '</ul>'+"\n";
                             }
                             return cmd;
                         },
@@ -241,7 +241,7 @@ import jQuery from 'jquery'
                     if (cmd_opts.hasOwnProperty(opt)) {
                         _public.register('response', {
                             name : opt,
-                            method : function(cmd){ 
+                            method : function(cmd){
                                 cmd_opts[opt] = cmd[opt];
                                 return cmd;
                             }
@@ -258,10 +258,10 @@ import jQuery from 'jquery'
                 quiet = mute;
                 cmd_start(command);
             }
-            
+
             /**
             * @method : echo
-            * @desc   : Takes a string and 
+            * @desc   : Takes a string and
             **/
            _public.echo = function(out_str, no_scroll){
                 if(out_str){
@@ -269,9 +269,9 @@ import jQuery from 'jquery'
                         .append('<div><div class="cmd_out">'+out_str+'</div></div>');
                 }
                 if(!no_scroll){
-                    scroll_to_bottom();    
+                    scroll_to_bottom();
                 }
-                
+
             }
 
             /**
@@ -410,7 +410,7 @@ import jQuery from 'jquery'
                             value = false;
                         }else if(first_char == '"' && quote_open === false && last_char !== '"'){
                             quote_type = '"';
-                            quote_open = true; 
+                            quote_open = true;
                             value = cmd[i];
                         }else if(first_char == "'" && quote_open === false && last_char !== "'"){
                             quote_type = "'";
@@ -428,7 +428,7 @@ import jQuery from 'jquery'
                                 // Remove wrapping quotes
                                  value = $.trim(cmd[i].substring(1).slice(0,-1));
                             }else{
-                                value = cmd[i];    
+                                value = cmd[i];
                             }
                         }
                         // Add to output
@@ -444,12 +444,12 @@ import jQuery from 'jquery'
 
             // cleanup
             el.html('');
-            
+
             // current history position
             var hcurrent = null;
-            
+
             // current running command
-            var cmd_name = null; 
+            var cmd_name = null;
 
             // the tokenized command
             var cmd_obj  = {};
@@ -479,14 +479,14 @@ import jQuery from 'jquery'
             var blinking = settings.autofocus;
 
             // temporary switches for subroutines
-            var tab_comp = settings.autocomplete; 
+            var tab_comp = settings.autocomplete;
             var save_to_history = settings.history_max;
 
             // Set caret on the prompt
             if(settings.autofocus){
                 input.focus();
-            } 
-            
+            }
+
             el.bind('focus click', function(){
                 var text = '';
                 if (typeof window.getSelection != "undefined") {
@@ -515,7 +515,7 @@ import jQuery from 'jquery'
 
             // Register native commands and responses
             if(settings.native_cmds){
-                _public.native_commands();    
+                _public.native_commands();
             }
             _public.native_responses(cmd_opts);
 
@@ -531,7 +531,7 @@ import jQuery from 'jquery'
                 if(typeof direct_cmd !== 'undefined'){
                     cmd = direct_cmd;
                 }else{
-                    cmd = input.text();    
+                    cmd = input.text();
                 }
 
                 tab_comp = settings.autocomplete;
@@ -558,7 +558,8 @@ import jQuery from 'jquery'
                     //execute arbitrary commands
                     if(settings.allowArbitrary) {
                         add_to_history(cmd)
-                        return settings.passCommand(cmd_obj.last).then(result => {
+                        console.log("TEST", cmd)
+                        return settings.passCommand(cmd).then(result => {
                                 cmd_obj.out = result
                                 return cmd_update()
                         }).catch(error => {
@@ -568,7 +569,7 @@ import jQuery from 'jquery'
                     } else {
 
                         if(!quiet){
-                            cmd_opts.out = cmd_name+' : '+settings.i18n.error_not_found;    
+                            cmd_opts.out = cmd_name+' : '+settings.i18n.error_not_found;
                         }
                         return cmd_update();
                     }
@@ -592,9 +593,9 @@ import jQuery from 'jquery'
 
                 // To modify history use a callbefore.
                 if(!quiet){
-                    add_to_history(cmd_opts.last);    
+                    add_to_history(cmd_opts.last);
                 }
-                
+
 
                 // Call command
                 if( typeof commands[cmd_name].exe === 'function' ) {
@@ -612,7 +613,7 @@ import jQuery from 'jquery'
                         ajax_data[settings.param+'_data'] = (cmd_opts.data !== null) ? cmd_opts.data : cmd_obj;
                         ajax_defaults.data = ajax_data;
                     }
-                    
+
                     // Merge defaults with settings
                     var ajax_opts = $.extend(true, ajax_defaults, settings.ajax_options);
                     if(commands[cmd_name].exe){
@@ -624,7 +625,7 @@ import jQuery from 'jquery'
                     jqxhr.done(function( data ){
                         cmd_obj = cmd_response(data);
                     });
-                    
+
                     jqxhr.fail(function(){
                         cmd_opts.out = settings.i18n.error_ajax;
                     });
@@ -716,7 +717,7 @@ import jQuery from 'jquery'
                 }
                 quiet = null;
 
-                cmd_opts = { 
+                cmd_opts = {
                     ps : null, in : null, out : null,
                     last : null, next : cmd_next, data : null
                 };
@@ -736,8 +737,8 @@ import jQuery from 'jquery'
 
             // Add to history
             var add_to_history = function(str) {
-                const isProper = typeof commands[cmd_name] !== 'undefined' 
-                && str !== '' 
+                const isProper = typeof commands[cmd_name] !== 'undefined'
+                && str !== ''
                 && save_to_history > 0
                 if( isProper || options.allowArbitrary) {
 
@@ -755,7 +756,7 @@ import jQuery from 'jquery'
             * @desc     : I give up. Done is better than perfect.
             **/
             var scroll_to_bottom = function(){
-                el.scrollTop(el.height() + 100000000000000000);    
+                el.scrollTop(el.height() + 100000000000000000);
             };
 
             // Set caret to end of input
@@ -779,7 +780,7 @@ import jQuery from 'jquery'
             }
 
             var tab_completion = function(current_value) {
-                var cmds = [ ];   
+                var cmds = [ ];
                 if( current_value.match( /^[^\s]{0,}$/ ) ) {
                     for(var i in commands ) {
                         if( current_value == '' ) {
@@ -858,7 +859,7 @@ import jQuery from 'jquery'
                             input.html('');
                         }
                         break;
-                    
+
                     // On Enter
                     case 13:
                         e.preventDefault();
@@ -874,11 +875,11 @@ import jQuery from 'jquery'
                         input.text('');
                         cmd_start();
                         break;
-                        
+
                 }
             });
         });
-        
+
         return _public;
     }
 

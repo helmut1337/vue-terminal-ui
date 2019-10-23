@@ -46,9 +46,17 @@ export default {
       default: '$'
     }
   },
+  data() {
+    return {
+      ptty: null
+    }
+  },
   methods: {
     toggleWaiting () {
       this.waiting = !this.waiting
+    },
+    addLine(msg) {
+      this.ptty.echo(msg);
     }
   },
   mounted () {
@@ -64,7 +72,7 @@ export default {
       prms.finally(this.toggleWaiting)
       return prms
     }
-    var $ptty = $('#terminal', '.vue-terminal-wrapper').Ptty({
+    this.ptty = $('#terminal', '.vue-terminal-wrapper').Ptty({
       i18n: {
         welcome: this.intro
       },
@@ -74,14 +82,14 @@ export default {
     })
 
         // example - register a command
-    $ptty.register('command', {
+    /*this.ptty.register('command', {
       name: 'hello',
       method: function (cmd) {
         cmd.out = 'Hello world!'
         return cmd
       },
       help: 'A demo command.'
-    })
+    })*/
   }
 }
 </script>

@@ -681,7 +681,7 @@ import jQuery from 'jquery'
                     // output
                     content.append(
                         '<div>'+
-                            '<div class="cmd_in"><span class="cmd_ps">'+input.attr('data-ps')+'</span>'+cmd_last+'</div>'+
+                            /*'<div class="cmd_in"><span class="cmd_ps">'+input.attr('data-ps')+'</span>'+cmd_last+'</div>'+*/
                             '<div class="cmd_out">'+cmd_out+'</div>'+
                         '</div>'
                     );

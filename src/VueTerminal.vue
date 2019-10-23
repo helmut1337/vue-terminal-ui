@@ -21,6 +21,7 @@ export default {
   name: 'VueTerminal',
   data: function () {
     return {
+      ptty: null,
       waiting: false
     }
   },
@@ -44,11 +45,6 @@ export default {
     consoleSign: {
       type: String,
       default: '$'
-    }
-  },
-  data() {
-    return {
-      ptty: null
     }
   },
   methods: {

@@ -74,7 +74,8 @@ export default {
       },
       ps: this.consoleSign,
       allowArbitrary: this.allowArbitrary,
-      passCommand: this.allowArbitrary ? commandEmitter : null
+      passCommand: this.allowArbitrary ? commandEmitter : null,
+	  native_cmds: false
     })
 
         // example - register a command

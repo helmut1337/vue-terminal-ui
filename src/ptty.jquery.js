@@ -50,7 +50,7 @@ import jQuery from 'jquery'
                 theme        : 'boring',
 
                 // Register help, clear and history commands
-                native_cmds  : true,
+                native_cmds  : false,
 
                 // Is Autocomplete feature Enabled
                 autocomplete : true,
